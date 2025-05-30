@@ -3,17 +3,20 @@ import BoardsPage from './pages/BoardsPage'
 import BoardPage from './pages/BoardPage'
 import IssuesPage from './pages/IssuesPage'
 import NotFoundPage from './pages/NotFoundPage'
+import Layout from './component/Layout'
 
 const App = () => {
   return (
     <Router>
-      <Routes>
-        <Route path="/boards" element={<BoardsPage />} />
-        <Route path="/board/:id" element={<BoardPage />} />
-        <Route path="/issues" element={<IssuesPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </Router>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route path="/boards" element={<BoardsPage />} />
+            <Route path="/board/:id" element={<BoardPage />} />
+            <Route path="/issues" element={<IssuesPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Route>
+        </Routes>
+      </Router>
   );
 };
 
