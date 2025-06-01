@@ -12,7 +12,7 @@ const BoardsPage = () => {
       renderItem={(board) => (
         <div
           key={board.id}
-          className="mx-2 py-[20px] px-[8px] max-w-400 bg-[#5E4261] rounded-xl text-white"
+          className="mx-2 py-5 px-2 max-w-400 bg-[#5E4261] rounded-xl text-white"
         >
           <div className="flex justify-between items-center sm:flex-row flex-col sm:gap-0 gap-2">
             <span>{board.name}</span>

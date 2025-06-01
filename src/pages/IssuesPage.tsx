@@ -1,20 +1,44 @@
 import useTasks from "../api/useTasks";
 import DataLoader from "../component/DataLoader";
+import CreateTaskButton from "../component/header/CreateTaskButton";
+import "./CreateTaskButton.css";
 
 const IssuesPage = () => {
   const { data, error, isError } = useTasks();
 
   return (
-    <DataLoader
-      data={data}
-      isError={isError}
-      error={error}
-      renderItem={(task) => (
-        <div key={task.id} className="mx-2 py-[20px] px-[8px] bg-[#5E4261] text-white">
-          <span>{task.title}</span>
+    <>
+      <div className="flex justify-between mt-4 mb-2 mx-8">
+        <input
+          type="text"
+          placeholder="Поиск"
+          className="px-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#5E4261]"
+        />
+        <button
+          type="button"
+          className="px-4 py-2 bg-[#5E4261] text-white"
+          onClick={() => {
+          }}
+        >
+          Фильтры
+        </button>
+      </div>
+      <div className="border border-gray-300 mb-8 mx-8">
+        <DataLoader
+          data={data}
+          isError={isError}
+          error={error}
+          renderItem={(task) => (
+            <div key={task.id} className="mx-2 py-5 px-2 bg-[#5E4261] text-white">
+              <span>{task.title}</span>
+            </div>
+          )}
+        />
+        <div className="flex justify-end my-2">
+          <CreateTaskButton className="mr-2" />
         </div>
-      )}
-    />
+      </div>
+    </>
   );
 };
 
