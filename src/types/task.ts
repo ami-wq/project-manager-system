@@ -7,7 +7,7 @@ interface Assignee {
 
 export type Priority = 'Low' | 'Medium' | 'High';
 
-export type Status = 'Backlog' | 'InProgress' | 'Done';
+export type Status = 'Backlog' | 'ToDo' | 'InProgress' | 'Done';
 
 export interface Task {
   id: number;

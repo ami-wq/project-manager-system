@@ -17,7 +17,14 @@ type TaskFormModalProps = {
 };
 
 const priorities: Priority[] = ['Low', 'Medium', 'High'];
-const statuses: Status[] = ['Backlog', 'InProgress', 'Done'];
+const statuses: Status[] = ['Backlog', 'ToDo', 'InProgress', 'Done'];
+
+const statusLabels: Record<Status, string> = {
+  Backlog: 'Backlog',
+  ToDo: 'To Do',
+  InProgress: 'In Progress',
+  Done: 'Done',
+};
 
 const TaskFormModal = ({ mode, task, boardId, onClose, onSuccess, onError }: TaskFormModalProps) => {
   const { data: boards, isError: isBoardsError, error: boardsError } = useBoards();
@@ -39,7 +46,7 @@ const TaskFormModal = ({ mode, task, boardId, onClose, onSuccess, onError }: Tas
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [priority, setPriority] = useState('');
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState('Backlog');
   const [assigneeId, setAssigneeId] = useState<number| null>(null);
   const [projectBoardId, setProjectBoardId] = useState<number | undefined>(boardId);
 
@@ -188,15 +195,15 @@ const TaskFormModal = ({ mode, task, boardId, onClose, onSuccess, onError }: Tas
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value)}
+            disabled={mode === 'create'}
             required
-            className="w-full border border-gray-300 rounded-xl px-4 py-2"
+            className={`w-full border border-gray-300 rounded-xl px-4 py-2 ${
+              mode === 'create' ? 'bg-gray-100 cursor-not-allowed' : ''
+            }`}
           >
-            <option value="" disabled hidden>
-              Статус
-            </option>
             {statuses.map((s) => (
               <option key={s} value={s}>
-                {s}
+                {statusLabels[s]}
               </option>
             ))}
           </select>
