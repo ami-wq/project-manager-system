@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import type { Priority, Status, Task } from "../types/task";
+import useBoards from "../api/useBoards";
+import type { AxiosError } from "axios";
+import useUsers from "../api/useUsers";
 
 type TaskFormModalProps = {
   mode: 'create' | 'edit';
@@ -13,6 +16,21 @@ const priorities: Priority[] = ['Low', 'Medium', 'High'];
 const statuses: Status[] = ['Backlog', 'InProgress', 'Done'];
 
 const TaskFormModal = ({ mode, task, boardId, onClose, onSuccess }: TaskFormModalProps) => {
+  const { data: boards, isError: isBoardsError, error: boardsError } = useBoards();
+  const { data: users, isError: isUsersError, error: usersError } = useUsers();
+
+  let boardsErrorMessage = 'Ошибка сервера';
+  if (isBoardsError) {
+    const axiosError = boardsError as AxiosError<{ error: string; message: string }>;
+    boardsErrorMessage = axiosError.response?.data?.message || 'Ошибка сервера';
+  }
+
+  let usersErrorMessage = 'Ошибка сервера';
+  if (isUsersError) {
+    const axiosError = usersError as AxiosError<{ error: string; message: string }>;
+    usersErrorMessage = axiosError.response?.data?.message || 'Ошибка сервера';
+  }
+  
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [priority, setPriority] = useState('');
@@ -75,17 +93,28 @@ const TaskFormModal = ({ mode, task, boardId, onClose, onSuccess }: TaskFormModa
 
         <label className="block mb-2">
           Проект
-          <select
-            value={projectBoardId || ''}
-            onChange={(e) => setProjectBoardId(Number(e.target.value))}
-            disabled={!!boardId}
-            required
-            className={`w-full border border-gray-300 rounded-xl px-4 py-2 ${
-              boardId ? 'bg-gray-100 cursor-not-allowed' : ''
-            }`}
-          >
-            <option value="">Выберите проект</option>
-          </select>
+          {isBoardsError ? (
+            <div>Ошибка: {boardsErrorMessage}</div>
+          ) : (
+            <select
+              value={projectBoardId || ''}
+              onChange={(e) => setProjectBoardId(Number(e.target.value))}
+              disabled={!!boardId}
+              required
+              className={`w-full border border-gray-300 rounded-xl px-4 py-2 ${
+                boardId ? 'bg-gray-100 cursor-not-allowed' : ''
+              }`}
+            >
+              <option value="" disabled hidden>
+                Выберите проект
+              </option>
+              {boards?.map((board) => (
+                <option key={board.id} value={board.id}>
+                  {board.name}
+                </option>
+              ))}
+            </select>
+          )}
         </label>
 
         <label className="block mb-2">
@@ -128,14 +157,25 @@ const TaskFormModal = ({ mode, task, boardId, onClose, onSuccess }: TaskFormModa
 
         <label className="block mb-4">
           Исполнитель
-          <select
-            value={assigneeId || ''}
-            onChange={(e) => setAssigneeId(Number(e.target.value))}
-            required
-            className="w-full border border-gray-300 rounded-xl px-4 py-2"
-          >
-            <option value="">Выберите исполнителя</option>
-          </select>
+          {isUsersError ? (
+            <div>Ошибка: {usersErrorMessage}</div>
+          ) : (
+            <select
+              value={assigneeId || ''}
+              onChange={(e) => setAssigneeId(Number(e.target.value))}
+              required
+              className="w-full border border-gray-300 rounded-xl px-4 py-2"
+            >
+              <option value="" disabled hidden>
+                Выберите исполнителя
+              </option>
+              {users?.map((user) => (
+                <option key={user.id} value={user.id}>
+                  {user.fullName}
+                </option>
+              ))}
+            </select>
+          )}
         </label>
 
         <div className="flex justify-between">
