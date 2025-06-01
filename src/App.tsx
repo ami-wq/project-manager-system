@@ -4,10 +4,13 @@ import BoardPage from './pages/BoardPage'
 import IssuesPage from './pages/IssuesPage'
 import NotFoundPage from './pages/NotFoundPage'
 import Layout from './component/Layout'
+import { ToastContainer } from 'react-toastify'
 
 const App = () => {
   return (
-    <Router>
+    <>
+      <ToastContainer />
+      <Router>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route path="/boards" element={<BoardsPage />} />
@@ -17,6 +20,7 @@ const App = () => {
           </Route>
         </Routes>
       </Router>
+    </>
   );
 };
 

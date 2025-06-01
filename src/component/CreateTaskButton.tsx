@@ -1,5 +1,6 @@
 import { useState } from "react";
 import TaskFormModal from "./TaskFormModal";
+import { toast } from 'react-toastify';
 
 const CreateTaskButton = ({ className = '' }: { className?: string }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,6 +18,8 @@ const CreateTaskButton = ({ className = '' }: { className?: string }) => {
       {isOpen && (
         <TaskFormModal
           mode="create"
+          onSuccess={(msg) => toast.success(msg)}
+          onError={(msg) => toast.error(msg)}
           onClose={() => setIsOpen(false)}
         />
       )}

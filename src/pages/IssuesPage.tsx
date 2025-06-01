@@ -1,9 +1,20 @@
+import { useState } from "react";
 import useTasks from "../api/useTasks";
 import CreateTaskButton from "../component/CreateTaskButton";
 import DataLoader from "../component/DataLoader";
+import type { Task } from "../types/task";
+import TaskFormModal from "../component/TaskFormModal";
+import { toast } from "react-toastify";
 
 const IssuesPage = () => {
   const { data, error, isError } = useTasks();
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleTaskClick = (task: Task) => {
+    setSelectedTask(task);
+    setIsModalOpen(true);
+  };
 
   return (
     <>
@@ -28,7 +39,11 @@ const IssuesPage = () => {
           isError={isError}
           error={error}
           renderItem={(task) => (
-            <div key={task.id} className="mx-2 py-5 px-2 bg-[#5E4261] text-white">
+            <div 
+              key={task.id} 
+              className="mx-2 py-5 px-2 bg-[#5E4261] text-white"
+              onClick={() => handleTaskClick(task)}
+            >
               <span>{task.title}</span>
             </div>
           )}
@@ -37,6 +52,20 @@ const IssuesPage = () => {
           <CreateTaskButton className="mr-2" />
         </div>
       </div>
+
+      {isModalOpen && selectedTask && (
+        <TaskFormModal
+          mode="edit"
+          task={selectedTask}
+          onClose={() => setIsModalOpen(false)}
+          onSuccess={(msg) => {
+            setIsModalOpen(false);
+            setSelectedTask(null);
+            toast.success(msg);
+          }}
+          onError={(msg) => toast.error(msg)}
+        />
+      )}
     </>
   );
 };

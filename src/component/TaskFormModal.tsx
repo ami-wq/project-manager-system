@@ -3,21 +3,26 @@ import type { Priority, Status, Task } from "../types/task";
 import useBoards from "../api/useBoards";
 import type { AxiosError } from "axios";
 import useUsers from "../api/useUsers";
+import { createTask, updateTask } from "../api/tasksApi";
+import axios from "axios";
+import useTasks from "../api/useTasks";
 
 type TaskFormModalProps = {
   mode: 'create' | 'edit';
   task?: Task;
   boardId?: number;
   onClose: () => void;
-  onSuccess?: () => void;
+  onSuccess: (message?: string) => void;
+  onError: (errorMessage: string) => void;
 };
 
 const priorities: Priority[] = ['Low', 'Medium', 'High'];
 const statuses: Status[] = ['Backlog', 'InProgress', 'Done'];
 
-const TaskFormModal = ({ mode, task, boardId, onClose, onSuccess }: TaskFormModalProps) => {
+const TaskFormModal = ({ mode, task, boardId, onClose, onSuccess, onError }: TaskFormModalProps) => {
   const { data: boards, isError: isBoardsError, error: boardsError } = useBoards();
   const { data: users, isError: isUsersError, error: usersError } = useUsers();
+  const { refetch } = useTasks();
 
   let boardsErrorMessage = 'Ошибка сервера';
   if (isBoardsError) {
@@ -35,7 +40,7 @@ const TaskFormModal = ({ mode, task, boardId, onClose, onSuccess }: TaskFormModa
   const [description, setDescription] = useState('');
   const [priority, setPriority] = useState('');
   const [status, setStatus] = useState('');
-  const [assigneeId, setAssigneeId] = useState<number | null>(null);
+  const [assigneeId, setAssigneeId] = useState<number| null>(null);
   const [projectBoardId, setProjectBoardId] = useState<number | undefined>(boardId);
 
   useEffect(() => {
@@ -57,13 +62,55 @@ const TaskFormModal = ({ mode, task, boardId, onClose, onSuccess }: TaskFormModa
     }
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      if (mode === 'create') {
+        const createRequestBody = {
+          title,
+          description,
+          priority,
+          assigneeId: assigneeId || 0,
+          boardId: projectBoardId || 0,
+        };
+
+        await createTask(createRequestBody);
+        onSuccess('Задача успешно создана');
+      } else if (mode === 'edit' && task) {
+        const updateRequestBody = {
+          title,
+          description,
+          priority,
+          status,
+          assigneeId: assigneeId || 0,
+        };
+
+        const response = await updateTask(task.id, updateRequestBody);
+        onSuccess(response.data.message || 'Задача успешно обновлена');
+      }
+
+      refetch();
+      onClose();
+    } catch (error) {
+      let errorMessage = 'Произошла ошибка';
+
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError<{ error: string; message: string }>;
+        errorMessage = axiosError.response?.data?.message || errorMessage;
+      }
+
+      onError(errorMessage);
+    }
+  };
+
   return (
     <div 
       onClick={handleOverlayClick}
       className="fixed inset-0 bg-black/80 flex justify-center items-center z-50"
     >
       <form 
-        action=""
+        onSubmit={handleSubmit}
         className="bg-white rounded-xl p-6 max-w-md mx-4"
       >
         <h2 className="text-xl font-semibold mb-4">
