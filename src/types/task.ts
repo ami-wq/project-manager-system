@@ -9,6 +9,13 @@ export type Priority = 'Low' | 'Medium' | 'High';
 
 export type Status = 'Backlog' | 'ToDo' | 'InProgress' | 'Done';
 
+export const statusLabels: Record<Status, string> = {
+  Backlog: 'Backlog',
+  ToDo: 'To Do',
+  InProgress: 'In Progress',
+  Done: 'Done',
+};
+
 export interface Task {
   id: number;
   title: string;

@@ -1,3 +1,5 @@
+import type { TasksResponse } from './task';
+
 export interface Board {
   id: number;
   name: string;
@@ -8,3 +10,5 @@ export interface Board {
 export interface BoardsResponse {
   data: Board[];
 }
+
+export type BoardResponse = TasksResponse;

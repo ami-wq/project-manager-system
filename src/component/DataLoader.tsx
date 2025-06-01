@@ -4,7 +4,7 @@ type DataLoaderProps<T> = {
   data: T[] | undefined;
   isError: boolean;
   error: Error | null;
-  renderItem: (item: T) => React.ReactNode;
+  renderItem: (Item: T) => React.ReactNode;
 };
 
 function DataLoader<T>({ data, isError, error, renderItem }: DataLoaderProps<T>) {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Priority, Status, Task } from "../types/task";
+import { statusLabels, type Priority, type Status, type Task } from "../types/task";
 import useBoards from "../api/useBoards";
 import type { AxiosError } from "axios";
 import useUsers from "../api/useUsers";
@@ -18,13 +18,6 @@ type TaskFormModalProps = {
 
 const priorities: Priority[] = ['Low', 'Medium', 'High'];
 const statuses: Status[] = ['Backlog', 'ToDo', 'InProgress', 'Done'];
-
-const statusLabels: Record<Status, string> = {
-  Backlog: 'Backlog',
-  ToDo: 'To Do',
-  InProgress: 'In Progress',
-  Done: 'Done',
-};
 
 const TaskFormModal = ({ mode, task, boardId, onClose, onSuccess, onError }: TaskFormModalProps) => {
   const { data: boards, isError: isBoardsError, error: boardsError } = useBoards();
@@ -233,19 +226,15 @@ const TaskFormModal = ({ mode, task, boardId, onClose, onSuccess, onError }: Tas
         </label>
 
         <div className="flex justify-between">
-          {!boardId && (
-            <button
-              type="button"
-              className={`text-white bg-[#5E4261] rounded-xl p-3 ${
-                !projectBoardId ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
-              onClick={() => {
-              }}
-              disabled={!projectBoardId}
-            >
-              Перейти на доску
-            </button>
-          )}
+          <button
+            type="button"
+            className={`text-white bg-[#5E4261] rounded-xl p-3 ${!projectBoardId ? 'opacity-50 cursor-not-allowed' : ''} ${boardId ? 'invisible' : ''}`}
+            onClick={() => {
+            }}
+            disabled={!projectBoardId}
+          >
+            Перейти на доску
+          </button>
           <button
             type="submit"
             className="p-3 bg-[#5E4261] text-white rounded-xl"

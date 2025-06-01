@@ -1,9 +1,13 @@
 import { useState } from "react";
 import TaskFormModal from "./TaskFormModal";
 import { toast } from 'react-toastify';
+import { useMatch } from "react-router-dom";
 
 const CreateTaskButton = ({ className = '' }: { className?: string }) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const match = useMatch('/board/:id')
+  const boardId = match ? Number(match.params.id) : undefined;
 
   return (
     <>
@@ -18,6 +22,7 @@ const CreateTaskButton = ({ className = '' }: { className?: string }) => {
       {isOpen && (
         <TaskFormModal
           mode="create"
+          boardId={boardId}
           onSuccess={(msg) => toast.success(msg)}
           onError={(msg) => toast.error(msg)}
           onClose={() => setIsOpen(false)}
