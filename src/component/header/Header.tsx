@@ -2,7 +2,7 @@ import { useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import NavLinks from './NavLinks';
-import CreateTaskButton from './CreateTaskButton';
+import CreateTaskButton from '../CreateTaskButton';
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);

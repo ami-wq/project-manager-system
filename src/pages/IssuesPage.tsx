@@ -1,7 +1,6 @@
 import useTasks from "../api/useTasks";
+import CreateTaskButton from "../component/CreateTaskButton";
 import DataLoader from "../component/DataLoader";
-import CreateTaskButton from "../component/header/CreateTaskButton";
-import "./CreateTaskButton.css";
 
 const IssuesPage = () => {
   const { data, error, isError } = useTasks();
@@ -16,7 +15,7 @@ const IssuesPage = () => {
         />
         <button
           type="button"
-          className="px-4 py-2 bg-[#5E4261] text-white"
+          className="p-3 bg-[#5E4261] text-white"
           onClick={() => {
           }}
         >

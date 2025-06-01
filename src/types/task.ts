@@ -5,9 +5,9 @@ interface Assignee {
   avatarUrl: string;
 }
 
-type Priority = 'Low' | 'Medium' | 'High';
+export type Priority = 'Low' | 'Medium' | 'High';
 
-type Status = 'Backlog' | 'InProgress' | 'Done';
+export type Status = 'Backlog' | 'InProgress' | 'Done';
 
 export interface Task {
   id: number;
