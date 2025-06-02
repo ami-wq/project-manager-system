@@ -57,7 +57,7 @@ const FiltersPanel = ({
       </div>
 
       <button
-        className="mt-4 p-3 bg-[#5E4261] text-white rounded-xl"
+        className="cursor-pointer mt-4 p-3 bg-[#5E4261] text-white rounded-xl"
         onClick={onClose}
       >
         Закрыть

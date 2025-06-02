@@ -176,7 +176,7 @@ const TaskFormModal = ({
               }}
               disabled={isBoardPredetermined}
               required
-              className={`w-full border border-gray-300 rounded-xl px-4 py-2 ${
+              className={`cursor-pointer w-full border border-gray-300 rounded-xl px-4 py-2 ${
                 isBoardPredetermined ? 'bg-gray-100 cursor-not-allowed' : ''
               }`}
             >
@@ -198,7 +198,7 @@ const TaskFormModal = ({
             value={priority}
             onChange={(e) => setPriority(e.target.value)}
             required
-            className="w-full border border-gray-300 rounded-xl px-4 py-2"
+            className="cursor-pointer w-full border border-gray-300 rounded-xl px-4 py-2"
           >
             <option value="" disabled hidden>
               Приоритет
@@ -218,7 +218,7 @@ const TaskFormModal = ({
             onChange={(e) => setStatus(e.target.value)}
             disabled={mode === 'create'}
             required
-            className={`w-full border border-gray-300 rounded-xl px-4 py-2 ${
+            className={`cursor-pointer w-full border border-gray-300 rounded-xl px-4 py-2 ${
               mode === 'create' ? 'bg-gray-100 cursor-not-allowed' : ''
             }`}
           >
@@ -239,7 +239,7 @@ const TaskFormModal = ({
               value={assigneeId || ''}
               onChange={(e) => setAssigneeId(Number(e.target.value))}
               required
-              className="w-full border border-gray-300 rounded-xl px-4 py-2"
+              className="cursor-pointer w-full border border-gray-300 rounded-xl px-4 py-2"
             >
               <option value="" disabled hidden>
                 Выберите исполнителя
@@ -256,7 +256,7 @@ const TaskFormModal = ({
         <div className="flex justify-between">
           <button
             type="button"
-            className={`text-white bg-[#5E4261] rounded-xl p-3 ${!projectBoardId ? 'opacity-50 cursor-not-allowed' : ''} ${isBoardPredetermined ? 'invisible' : '' }`}
+            className={` text-white bg-[#5E4261] rounded-xl p-3 ${!projectBoardId ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} ${isBoardPredetermined ? 'invisible' : '' }`}
             onClick={() => {
               if (projectBoardId) {
                 navigate(`/board/${projectBoardId}`, { state: { boardName: projectBoardName } });
@@ -268,7 +268,7 @@ const TaskFormModal = ({
           </button>
           <button
             type="submit"
-            className="p-3 bg-[#5E4261] text-white rounded-xl"
+            className="cursor-pointer p-3 bg-[#5E4261] text-white rounded-xl"
           >
             {mode === 'create' ? 'Создать' : 'Сохранить'}
           </button>

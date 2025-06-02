@@ -54,7 +54,7 @@ const BoardPage = () => {
                 tasksByStatus[status].map((task) => (
                   <div 
                     key={task.id} 
-                    className="flex items-center p-2 text-white bg-[#5E4261] rounded-xl shadow min-h-16"
+                    className="cursor-pointer flex items-center p-2 text-white bg-[#5E4261] rounded-xl shadow min-h-16"
                     onClick={() => handleTaskClick(task)}
                   >
                     <div className="truncate overflow-hidden whitespace-nowrap max-w-full">

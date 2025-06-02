@@ -10,7 +10,7 @@ const CreateTaskButton = ({ className = '' }: { className?: string }) => {
 
   return (
     <button
-      className={`text-white bg-[#5E4261] rounded-xl p-3 ${className}`}
+      className={`cursor-pointer text-white bg-[#5E4261] rounded-xl p-3 ${className}`}
       aria-label="Add new task"
       onClick={() => dispatch(openModal({
         mode: 'create',

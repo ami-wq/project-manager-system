@@ -73,7 +73,7 @@ const IssuesPage = () => {
         />
         <button
           type="button"
-          className="p-3 bg-[#5E4261] text-white"
+          className="cursor-pointer p-3 bg-[#5E4261] text-white"
           onClick={() => setIsFilterOpen(true)}
         >
           Фильтры
@@ -100,7 +100,7 @@ const IssuesPage = () => {
           renderItem={(task) => (
             <div 
               key={task.id} 
-              className="mx-2 py-5 px-2 bg-[#5E4261] text-white"
+              className="cursor-pointer mx-2 py-5 px-2 bg-[#5E4261] text-white"
               onClick={() => handleTaskClick(task)}
             >
               <span>{task.title}</span>
