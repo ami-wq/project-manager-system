@@ -7,6 +7,7 @@ import { openModal } from "../store/taskModalSlice";
 import { useMemo, useState } from "react";
 import useBoards from "../api/useBoards";
 import FiltersPanel from "../component/FiltersPanel";
+import useDebounce from "../hooks/useDebounce";
 
 const IssuesPage = () => {
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ const IssuesPage = () => {
 
 
   const [searchTerm, setSearchTerm] = useState('');
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const [selectedStatuses, setSelectedStatuses] = useState<Status[]>([]);
@@ -43,10 +45,12 @@ const IssuesPage = () => {
   const filteredTasks = useMemo(() => {
     if (!data) return [];
 
-    const lowerSearch = searchTerm.toLowerCase();
+    const lowerSearch = debouncedSearchTerm.toLowerCase();
+    const searchIsActive = debouncedSearchTerm.length >= 3;
 
     return data.filter(task => {
       const matchesSearch =
+        !searchIsActive ||
         task.title.toLowerCase().includes(lowerSearch) ||
         task.assignee?.fullName.toLowerCase().includes(lowerSearch);
 
