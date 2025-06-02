@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 const NavLinks = ({ onClick }: { onClick?: () => void }) => {
   const linkClass = (isActive: boolean) =>
-    isActive ? 'font-bold text-[#5E4261]' : 'text-[#A079A4]';
+    isActive ? 'font-bold sm:text-2xl text-[#5E4261]' : 'sm:text-2xl text-[#A079A4]';
 
   return (
     <>
