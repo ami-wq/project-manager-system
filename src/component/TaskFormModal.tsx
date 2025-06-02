@@ -6,6 +6,7 @@ import useUsers from "../api/useUsers";
 import { createTask, updateTask } from "../api/tasksApi";
 import axios from "axios";
 import useTasks from "../api/useTasks";
+import { useNavigate } from "react-router-dom";
 
 type TaskFormModalProps = {
   mode: 'create' | 'edit';
@@ -42,6 +43,7 @@ const TaskFormModal = ({ mode, task, boardId, onClose, onSuccess, onError }: Tas
   const [status, setStatus] = useState('Backlog');
   const [assigneeId, setAssigneeId] = useState<number| null>(null);
   const [projectBoardId, setProjectBoardId] = useState<number | undefined>(boardId);
+  const [projectBoardName, setProjectBoardName] = useState<string | undefined>('');
 
   useEffect(() => {
     if (mode === 'edit' && task) {
@@ -51,6 +53,7 @@ const TaskFormModal = ({ mode, task, boardId, onClose, onSuccess, onError }: Tas
       setStatus(task.status);
       setAssigneeId(task.assignee.id);
       setProjectBoardId(task.boardId);
+      setProjectBoardName(task.boardName);
     } else if (mode === 'create' && boardId) {
       setProjectBoardId(boardId);
     }
@@ -61,6 +64,8 @@ const TaskFormModal = ({ mode, task, boardId, onClose, onSuccess, onError }: Tas
       onClose();
     }
   };
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -145,7 +150,13 @@ const TaskFormModal = ({ mode, task, boardId, onClose, onSuccess, onError }: Tas
           ) : (
             <select
               value={projectBoardId || ''}
-              onChange={(e) => setProjectBoardId(Number(e.target.value))}
+              onChange={(e) => {
+                const selectedId = Number(e.target.value);
+                setProjectBoardId(selectedId);
+
+                const selectedBoard = boards?.find((board) => board.id === selectedId);
+                setProjectBoardName(selectedBoard ? selectedBoard.name : undefined);
+              }}
               disabled={!!boardId}
               required
               className={`w-full border border-gray-300 rounded-xl px-4 py-2 ${
@@ -230,6 +241,9 @@ const TaskFormModal = ({ mode, task, boardId, onClose, onSuccess, onError }: Tas
             type="button"
             className={`text-white bg-[#5E4261] rounded-xl p-3 ${!projectBoardId ? 'opacity-50 cursor-not-allowed' : ''} ${boardId ? 'invisible' : ''}`}
             onClick={() => {
+              if (projectBoardId) {
+                navigate(`/board/${projectBoardId}`, { state: { boardName: projectBoardName } });
+              }
             }}
             disabled={!projectBoardId}
           >
