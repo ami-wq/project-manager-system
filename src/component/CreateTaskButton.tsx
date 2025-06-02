@@ -23,6 +23,7 @@ const CreateTaskButton = ({ className = '' }: { className?: string }) => {
         <TaskFormModal
           mode="create"
           boardId={boardId}
+          isBoardPredetermined={!!boardId}
           onSuccess={(msg) => toast.success(msg)}
           onError={(msg) => toast.error(msg)}
           onClose={() => setIsOpen(false)}

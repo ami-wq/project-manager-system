@@ -12,6 +12,7 @@ type TaskFormModalProps = {
   mode: 'create' | 'edit';
   task?: Task;
   boardId?: number;
+  isBoardPredetermined?: boolean;
   onClose: () => void;
   onSuccess: (message?: string) => void;
   onError: (errorMessage: string) => void;
@@ -20,7 +21,15 @@ type TaskFormModalProps = {
 const priorities: Priority[] = ['Low', 'Medium', 'High'];
 const statuses: Status[] = ['Backlog', 'ToDo', 'InProgress', 'Done'];
 
-const TaskFormModal = ({ mode, task, boardId, onClose, onSuccess, onError }: TaskFormModalProps) => {
+const TaskFormModal = ({
+   mode, 
+   task, 
+   boardId, 
+   isBoardPredetermined = false,
+   onClose, 
+   onSuccess, 
+   onError 
+}: TaskFormModalProps) => {
   const { data: boards, isError: isBoardsError, error: boardsError } = useBoards();
   const { data: users, isError: isUsersError, error: usersError } = useUsers();
   const { refetch } = useTasks();
@@ -149,7 +158,7 @@ const TaskFormModal = ({ mode, task, boardId, onClose, onSuccess, onError }: Tas
             <div>Ошибка: {boardsErrorMessage}</div>
           ) : (
             <select
-              value={projectBoardId || ''}
+              value={projectBoardId !== undefined ? String(projectBoardId) : ''}
               onChange={(e) => {
                 const selectedId = Number(e.target.value);
                 setProjectBoardId(selectedId);
@@ -157,10 +166,10 @@ const TaskFormModal = ({ mode, task, boardId, onClose, onSuccess, onError }: Tas
                 const selectedBoard = boards?.find((board) => board.id === selectedId);
                 setProjectBoardName(selectedBoard ? selectedBoard.name : undefined);
               }}
-              disabled={!!boardId}
+              disabled={isBoardPredetermined}
               required
               className={`w-full border border-gray-300 rounded-xl px-4 py-2 ${
-                boardId ? 'bg-gray-100 cursor-not-allowed' : ''
+                isBoardPredetermined ? 'bg-gray-100 cursor-not-allowed' : ''
               }`}
             >
               <option value="" disabled hidden>
@@ -239,7 +248,7 @@ const TaskFormModal = ({ mode, task, boardId, onClose, onSuccess, onError }: Tas
         <div className="flex justify-between">
           <button
             type="button"
-            className={`text-white bg-[#5E4261] rounded-xl p-3 ${!projectBoardId ? 'opacity-50 cursor-not-allowed' : ''} ${boardId ? 'invisible' : ''}`}
+            className={`text-white bg-[#5E4261] rounded-xl p-3 ${!projectBoardId ? 'opacity-50 cursor-not-allowed' : ''} ${isBoardPredetermined ? 'invisible' : '' }`}
             onClick={() => {
               if (projectBoardId) {
                 navigate(`/board/${projectBoardId}`, { state: { boardName: projectBoardName } });
