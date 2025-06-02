@@ -1,8 +1,8 @@
 import type { Task, TasksResponse } from '../types/task';
 import apiClient from './apiClient';
 
-export const getTasks = async (): Promise<Task[]> => {
-  const { data } = await apiClient.get<TasksResponse>('/tasks');
+export const getTasks = async (signal?: AbortSignal): Promise<Task[]> => {
+  const { data } = await apiClient.get<TasksResponse>('/tasks', { signal });
   return data.data;
 };
 

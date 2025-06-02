@@ -5,7 +5,7 @@ import { getTasks } from './tasksApi';
 const useTasks = () => {
   return useQuery<Task[], Error>({
     queryKey: ['tasks'],
-    queryFn: getTasks,
+    queryFn: ({ signal }) => getTasks(signal),
   });
 };
 

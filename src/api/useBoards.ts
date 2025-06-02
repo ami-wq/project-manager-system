@@ -5,7 +5,7 @@ import getBoards from './boardsApi';
 const useBoards = () => {
   return useQuery<Board[], Error>({
     queryKey: ['boards'],
-    queryFn: getBoards,
+    queryFn: ({ signal }) => getBoards(signal),
   });
 };
 

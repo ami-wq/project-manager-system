@@ -5,7 +5,7 @@ import getUsers from './usersApi';
 const useUsers = () => {
   return useQuery<User[], Error>({
     queryKey: ['users'],
-    queryFn: getUsers,
+    queryFn: ({ signal }) => getUsers(signal),
   });
 };
 
