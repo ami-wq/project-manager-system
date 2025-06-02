@@ -7,11 +7,10 @@ interface Assignee {
 
 export type Priority = 'Low' | 'Medium' | 'High';
 
-export type Status = 'Backlog' | 'ToDo' | 'InProgress' | 'Done';
+export type Status = 'Backlog' | 'InProgress' | 'Done';
 
 export const statusLabels: Record<Status, string> = {
-  Backlog: 'Backlog',
-  ToDo: 'To Do',
+  Backlog: 'To Do',
   InProgress: 'In Progress',
   Done: 'Done',
 };

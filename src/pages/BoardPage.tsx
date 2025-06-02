@@ -34,13 +34,9 @@ const BoardPage = () => {
     boardId: boardId,
   })) ?? [];
 
-  const statuses: Status[] = ['ToDo', 'InProgress', 'Done'];
+  const statuses: Status[] = ['Backlog', 'InProgress', 'Done'];
   const tasksByStatus = statuses.reduce<Record<Status, Task[]>>((acc, status) => {
-    if (status === 'ToDo') {
-      acc[status] = tasksWithBoardInfo.filter((task) => task.status === 'ToDo' || task.status === 'Backlog');
-    } else if (status !== 'Backlog') {
-      acc[status] = tasksWithBoardInfo.filter((task) => task.status === status);
-    }
+    acc[status] = tasksWithBoardInfo.filter((task) => task.status === status);
     return acc;
   }, {} as Record<Status, Task[]>);
 

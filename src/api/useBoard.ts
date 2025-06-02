@@ -2,11 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 import type { Task } from '../types/task';
 import getBoard from './boardApi';
 
-const useBoards = (boardId: number) => {
+const useBoard = (boardId: number | undefined) => {
   return useQuery<Task[], Error>({
     queryKey: ['boards', boardId],
-    queryFn: ({ signal }) => getBoard(boardId, signal),
+    queryFn: ({ signal }) => getBoard(boardId as number, signal),
+    enabled: typeof boardId === 'number' && !isNaN(boardId),
   });
 };
 
-export default useBoards;
+export default useBoard;

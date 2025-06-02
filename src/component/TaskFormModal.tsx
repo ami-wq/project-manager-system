@@ -6,7 +6,8 @@ import useUsers from "../api/useUsers";
 import { createTask, updateTask } from "../api/tasksApi";
 import axios from "axios";
 import useTasks from "../api/useTasks";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import useBoard from "../api/useBoard";
 
 type TaskFormModalProps = {
   mode: 'create' | 'edit';
@@ -19,7 +20,7 @@ type TaskFormModalProps = {
 };
 
 const priorities: Priority[] = ['Low', 'Medium', 'High'];
-const statuses: Status[] = ['Backlog', 'ToDo', 'InProgress', 'Done'];
+const statuses: Status[] = ['Backlog', 'InProgress', 'Done'];
 
 const TaskFormModal = ({
    mode, 
@@ -30,9 +31,21 @@ const TaskFormModal = ({
    onSuccess, 
    onError 
 }: TaskFormModalProps) => {
+  const location = useLocation();
+  const isBoardPage = /^\/board\/\d+$/.test(location.pathname);
+  
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [priority, setPriority] = useState('');
+  const [status, setStatus] = useState('Backlog');
+  const [assigneeId, setAssigneeId] = useState<number| null>(null);
+  const [projectBoardId, setProjectBoardId] = useState<number | undefined>(boardId);
+  const [projectBoardName, setProjectBoardName] = useState<string | undefined>('');
+
   const { data: boards, isError: isBoardsError, error: boardsError } = useBoards();
   const { data: users, isError: isUsersError, error: usersError } = useUsers();
-  const { refetch } = useTasks();
+  const { refetch: refetchTasks } = useTasks();
+  const { refetch: refetchBoard } = useBoard(projectBoardId);
 
   let boardsErrorMessage = 'Ошибка сервера';
   if (isBoardsError) {
@@ -45,14 +58,6 @@ const TaskFormModal = ({
     const axiosError = usersError as AxiosError<{ error: string; message: string }>;
     usersErrorMessage = axiosError.response?.data?.message || 'Ошибка сервера';
   }
-  
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [priority, setPriority] = useState('');
-  const [status, setStatus] = useState('Backlog');
-  const [assigneeId, setAssigneeId] = useState<number| null>(null);
-  const [projectBoardId, setProjectBoardId] = useState<number | undefined>(boardId);
-  const [projectBoardName, setProjectBoardName] = useState<string | undefined>('');
 
   useEffect(() => {
     if (mode === 'edit' && task) {
@@ -101,10 +106,12 @@ const TaskFormModal = ({
         };
 
         const response = await updateTask(task.id, updateRequestBody);
-        onSuccess(response.data.message || 'Задача успешно обновлена');
+        onSuccess(response.data.message || 'Задача успешно обновлена');  
       }
-
-      refetch();
+      refetchTasks();
+      if (isBoardPage) {
+        refetchBoard();
+      }
       onClose();
     } catch (error) {
       let errorMessage = 'Произошла ошибка';
@@ -147,6 +154,7 @@ const TaskFormModal = ({
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            required
             className="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#5E4261]"
             rows={4}
           />
