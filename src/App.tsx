@@ -6,6 +6,7 @@ import NotFoundPage from './pages/NotFoundPage'
 import Layout from './component/Layout'
 import { ToastContainer } from 'react-toastify'
 import TaskFormModalContainer from './component/TaskFormModalContainer'
+import ScrollToTop from './component/ScrollToTopButton'
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
           </Route>
         </Routes>
         <TaskFormModalContainer />
+        <ScrollToTop />
       </Router>
     </>
   );
