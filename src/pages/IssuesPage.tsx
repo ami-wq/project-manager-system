@@ -4,10 +4,13 @@ import DataLoader from "../component/DataLoader";
 import type { Task } from "../types/task";
 import { useDispatch } from "react-redux";
 import { openModal } from "../store/taskModalSlice";
+import { useMemo, useState } from "react";
 
 const IssuesPage = () => {
   const dispatch = useDispatch();
   const { data, error, isError } = useTasks();
+
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleTaskClick = (task: Task) => {
     dispatch(openModal({
@@ -16,12 +19,27 @@ const IssuesPage = () => {
     }));
   };
 
+  const filteredTasks = useMemo(() => {
+    if (!data) return [];
+
+    const lowerSearch = searchTerm.toLowerCase();
+
+    return data.filter(task => {
+      const titleMatch = task.title.toLowerCase().includes(lowerSearch);
+      const assigneeMatch = task.assignee?.fullName.toLowerCase().includes(lowerSearch);
+      return titleMatch || assigneeMatch;
+    });
+  }, [data, searchTerm]);
+
+
   return (
     <>
       <div className="flex justify-between mt-4 mb-2 mx-8">
         <input
           type="text"
           placeholder="Поиск"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
           className="px-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#5E4261]"
         />
         <button
@@ -35,7 +53,7 @@ const IssuesPage = () => {
       </div>
       <div className="border border-gray-300 mb-8 mx-8">
         <DataLoader
-          data={data}
+          data={filteredTasks}
           isError={isError}
           error={error}
           renderItem={(task) => (
@@ -45,6 +63,7 @@ const IssuesPage = () => {
               onClick={() => handleTaskClick(task)}
             >
               <span>{task.title}</span>
+              <div className="text-sm text-gray-300">Исполнитель: {task.assignee.fullName}</div>
             </div>
           )}
         />
