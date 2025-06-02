@@ -1,19 +1,19 @@
-import { useState } from "react";
 import useTasks from "../api/useTasks";
 import CreateTaskButton from "../component/CreateTaskButton";
 import DataLoader from "../component/DataLoader";
 import type { Task } from "../types/task";
-import TaskFormModal from "../component/TaskFormModal";
-import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { openModal } from "../store/taskModalSlice";
 
 const IssuesPage = () => {
+  const dispatch = useDispatch();
   const { data, error, isError } = useTasks();
-  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleTaskClick = (task: Task) => {
-    setSelectedTask(task);
-    setIsModalOpen(true);
+    dispatch(openModal({
+      mode: 'edit',
+      selectedTask: task,
+    }));
   };
 
   return (
@@ -52,20 +52,6 @@ const IssuesPage = () => {
           <CreateTaskButton className="mr-2" />
         </div>
       </div>
-
-      {isModalOpen && selectedTask && (
-        <TaskFormModal
-          mode="edit"
-          task={selectedTask}
-          onClose={() => setIsModalOpen(false)}
-          onSuccess={(msg) => {
-            setIsModalOpen(false);
-            setSelectedTask(null);
-            toast.success(msg);
-          }}
-          onError={(msg) => toast.error(msg)}
-        />
-      )}
     </>
   );
 };

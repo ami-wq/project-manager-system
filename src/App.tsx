@@ -5,6 +5,7 @@ import IssuesPage from './pages/IssuesPage'
 import NotFoundPage from './pages/NotFoundPage'
 import Layout from './component/Layout'
 import { ToastContainer } from 'react-toastify'
+import TaskFormModalContainer from './component/TaskFormModalContainer'
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
+        <TaskFormModalContainer />
       </Router>
     </>
   );
