@@ -73,11 +73,11 @@ const IssuesPage = () => {
           placeholder="Поиск"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="px-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#5E4261]"
+          className="px-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
         />
         <button
           type="button"
-          className="cursor-pointer p-3 bg-[#5E4261] text-white"
+          className="cursor-pointer p-3 bg-primary text-white"
           onClick={() => setIsFilterOpen(true)}
         >
           Фильтры
@@ -108,7 +108,7 @@ const IssuesPage = () => {
           renderItem={(task) => (
             <div 
               key={task.id} 
-              className="cursor-pointer mx-2 py-5 px-2 bg-[#5E4261] text-white"
+              className="cursor-pointer mx-2 py-5 px-2 bg-primary text-white"
               onClick={() => handleTaskClick(task)}
             >
               <span>{task.title}</span>

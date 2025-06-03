@@ -57,12 +57,12 @@ const BoardPage = () => {
             <h2 className="font-semibold p-2 border-b border-gray-400 ">{statusLabels[status]}</h2>
             <div className="flex flex-col space-y-2 m-2">
               {tasksByStatus[status].length === 0 ? (
-                <p className="text-[#A079A4]">Нет задач</p>
+                <p className="text-secondary">Нет задач</p>
               ) : (
                 tasksByStatus[status].map((task) => (
                   <div 
                     key={task.id} 
-                    className="cursor-pointer flex items-center p-2 text-white bg-[#5E4261] rounded-xl shadow min-h-16"
+                    className="cursor-pointer flex items-center p-2 text-white bg-primary rounded-xl shadow min-h-16"
                     onClick={() => handleTaskClick(task)}
                   >
                     <div className="truncate overflow-hidden whitespace-nowrap max-w-full">

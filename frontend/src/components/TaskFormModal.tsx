@@ -145,7 +145,7 @@ const TaskFormModal = ({
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
-            className="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#5E4261]"
+            className="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </label>
 
@@ -155,7 +155,7 @@ const TaskFormModal = ({
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
-            className="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#5E4261]"
+            className="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
             rows={4}
           />
         </label>
@@ -260,7 +260,7 @@ const TaskFormModal = ({
         <div className="flex justify-between">
           <button
             type="button"
-            className={` text-white bg-[#5E4261] rounded-xl p-3 ${!projectBoardId ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} ${isBoardPredetermined ? 'invisible' : '' }`}
+            className={` text-white bg-primary rounded-xl p-3 ${!projectBoardId ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'} ${isBoardPredetermined ? 'invisible' : '' }`}
             onClick={() => {
               if (projectBoardId) {
                 navigate(`/board/${projectBoardId}`, { state: { boardName: projectBoardName } });
@@ -272,7 +272,7 @@ const TaskFormModal = ({
           </button>
           <button
             type="submit"
-            className="cursor-pointer p-3 bg-[#5E4261] text-white rounded-xl"
+            className="cursor-pointer p-3 bg-primary text-white rounded-xl"
           >
             {mode === 'create' ? 'Создать' : 'Сохранить'}
           </button>

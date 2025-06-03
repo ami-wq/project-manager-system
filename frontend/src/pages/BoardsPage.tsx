@@ -15,12 +15,12 @@ const BoardsPage = () => {
       renderItem={(board) => (
         <div
           key={board.id}
-          className="mx-2 py-5 px-2 max-w-400 bg-[#5E4261] rounded-xl text-white"
+          className="mx-2 py-5 px-2 max-w-400 bg-primary rounded-xl text-white"
         >
           <div className="flex justify-between items-center sm:flex-row flex-col sm:gap-0 gap-2">
             <span>{board.name}</span>
             <button 
-              className="cursor-pointer bg-[#A079A4] p-2 rounded-xl sm:ml-2 sm:w-[148px] w-full"
+              className="cursor-pointer bg-secondary p-2 rounded-xl sm:ml-2 sm:w-[148px] w-full"
               onClick={() => navigate(`/board/${board.id}`, { state: { boardName: board.name } })}
             >
               Перейти к доске

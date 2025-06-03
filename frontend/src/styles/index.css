@@ -1,4 +1,8 @@
 @import "tailwindcss";
+@theme {
+  --color-primary: #5E4261;
+  --color-secondary: #A079A4;
+}
 :root {
   font-family: 'Inter', sans-serif;
   line-height: 1.5;
