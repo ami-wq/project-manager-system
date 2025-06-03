@@ -1,9 +1,9 @@
 import { useLocation, useParams } from "react-router-dom";
 import useBoard from "../api/useBoard";
-import type { AxiosError } from "axios";
 import { statusLabels, type Status, type Task } from "../types/task";
 import { useDispatch } from "react-redux";
 import { openModal } from "../store/taskModalSlice";
+import axios from "axios";
 
 const BoardPage = () => {
   const { id } = useParams();
@@ -24,9 +24,19 @@ const BoardPage = () => {
   };
 
   if (isError) {
-      const axiosError = error as AxiosError<{ error: string; message: string }>;
-      const errorMessage = axiosError.response?.data?.message || 'Ошибка сервера';
-      return <div>Ошибка: {errorMessage}</div>;
+    let errorMessage = 'Ошибка сервера';
+
+    if (axios.isAxiosError(error)) {
+      errorMessage = error.response?.data?.message || error.message || errorMessage;
+    } else if (error instanceof Error) {
+      errorMessage = error.message || errorMessage;
+    }
+
+    return (
+      <div className="p-4 text-center text-red-600">
+        {errorMessage}
+      </div>
+    );
   }
 
   if (isLoading) {
