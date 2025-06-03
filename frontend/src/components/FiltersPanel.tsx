@@ -7,6 +7,10 @@ type FiltersPanelProps = {
   toggleStatus: (status: Status) => void;
 
   boards?: Board[];
+  isLoadingBoards?: boolean;
+  isErrorBoards?: boolean;
+  boardsError?: Error | null;
+
   selectedBoardIds: number[];
   toggleBoard: (boardId: number) => void;
 
@@ -18,6 +22,9 @@ const FiltersPanel = ({
   selectedStatuses,
   toggleStatus,
   boards,
+  isLoadingBoards,
+  isErrorBoards,
+  boardsError,
   selectedBoardIds,
   toggleBoard,
   onClose,
@@ -43,7 +50,18 @@ const FiltersPanel = ({
 
       <div>
         <h4 className="font-medium mb-1">Доски</h4>
-        {boards?.map(board => (
+
+        {isLoadingBoards && (
+          <div className="text-gray-500">Загрузка досок...</div>
+        )}
+
+        {isErrorBoards && (
+          <div>
+            Ошибка загрузки досок: {boardsError?.message || 'Неизвестная ошибка'}
+          </div>
+        )}
+
+        {!isLoadingBoards && !isErrorBoards && boards?.map(board => (
           <label key={board.id} className="flex items-center mb-1 cursor-pointer">
             <input
               type="checkbox"

@@ -3,12 +3,13 @@ import useBoards from "../api/useBoards";
 import DataLoader from "../components/DataLoader";
 
 const BoardsPage = () => {
-  const { data, error, isError } = useBoards(); 
+  const { data, error, isLoading, isError } = useBoards(); 
   const navigate = useNavigate();
 
   return (
     <DataLoader
       data={data}
+      isLoading={isLoading}
       isError={isError}
       error={error}
       renderItem={(board) => (

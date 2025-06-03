@@ -11,8 +11,8 @@ import useDebounce from "../hooks/useDebounce";
 
 const IssuesPage = () => {
   const dispatch = useDispatch();
-  const { data, error, isError } = useTasks();
-  const { data: boards } = useBoards();
+  const { data, isLoading, error, isError } = useTasks();
+  const { data: boards, isLoading: isBoardsLoading, isError: isBoardsError, error: boardsError } = useBoards();
   const statuses: Status[] = ['Backlog', 'InProgress', 'Done'];
 
 
@@ -90,6 +90,9 @@ const IssuesPage = () => {
           selectedStatuses={selectedStatuses}
           toggleStatus={toggleStatus}
           boards={boards}
+          isLoadingBoards={isBoardsLoading}
+          isErrorBoards={isBoardsError}
+          boardsError={boardsError}
           selectedBoardIds={selectedBoardIds}
           toggleBoard={toggleBoard}
           onClose={() => setIsFilterOpen(false)}
@@ -99,6 +102,7 @@ const IssuesPage = () => {
       <div className="border border-gray-300 mb-8 mx-8">
         <DataLoader
           data={filteredTasks}
+          isLoading={isLoading}
           isError={isError}
           error={error}
           renderItem={(task) => (

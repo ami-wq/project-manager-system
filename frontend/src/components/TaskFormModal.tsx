@@ -42,8 +42,8 @@ const TaskFormModal = ({
   const [projectBoardId, setProjectBoardId] = useState<number | undefined>(boardId);
   const [projectBoardName, setProjectBoardName] = useState<string | undefined>('');
 
-  const { data: boards, isError: isBoardsError, error: boardsError } = useBoards();
-  const { data: users, isError: isUsersError, error: usersError } = useUsers();
+  const { data: boards, isLoading: isBoardsLoading, isError: isBoardsError, error: boardsError } = useBoards();
+  const { data: users, isLoading: isUsersLoading, isError: isUsersError, error: usersError } = useUsers();
   const { refetch: refetchTasks } = useTasks();
   const { refetch: refetchBoard } = useBoard(projectBoardId);
 
@@ -164,6 +164,8 @@ const TaskFormModal = ({
           Проект
           {isBoardsError ? (
             <div>Ошибка: {boardsErrorMessage}</div>
+          ) : isBoardsLoading ? (
+            <div>Загрузка...</div>
           ) : (
             <select
               value={projectBoardId !== undefined ? String(projectBoardId) : ''}
@@ -234,6 +236,8 @@ const TaskFormModal = ({
           Исполнитель
           {isUsersError ? (
             <div>Ошибка: {usersErrorMessage}</div>
+          ) : isUsersLoading ? (
+            <div>Загрузка...</div>
           ) : (
             <select
               value={assigneeId || ''}

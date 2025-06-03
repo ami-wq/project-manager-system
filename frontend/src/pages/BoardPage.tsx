@@ -11,7 +11,7 @@ const BoardPage = () => {
   const location = useLocation();
   const boardName = location.state?.boardName ?? 'Доска';
 
-  const { data, isError, error } = useBoard(boardId);
+  const { data, isLoading, isError, error } = useBoard(boardId);
 
   const dispatch = useDispatch();
 
@@ -27,6 +27,14 @@ const BoardPage = () => {
       const axiosError = error as AxiosError<{ error: string; message: string }>;
       const errorMessage = axiosError.response?.data?.message || 'Ошибка сервера';
       return <div>Ошибка: {errorMessage}</div>;
+  }
+
+  if (isLoading) {
+    return (
+      <div className="p-4 text-center text-gray-500">
+        Загрузка...
+      </div>
+    );
   }
 
   const tasksWithBoardInfo = data?.map(task => ({
