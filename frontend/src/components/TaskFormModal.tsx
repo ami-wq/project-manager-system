@@ -166,6 +166,8 @@ const TaskFormModal = ({
             <div>Ошибка: {boardsErrorMessage}</div>
           ) : isBoardsLoading ? (
             <div>Загрузка...</div>
+          ) : boards && boards.length === 0 ? (
+            <div>Список досок пуст</div>
           ) : (
             <select
               value={projectBoardId !== undefined ? String(projectBoardId) : ''}
@@ -238,7 +240,9 @@ const TaskFormModal = ({
             <div>Ошибка: {usersErrorMessage}</div>
           ) : isUsersLoading ? (
             <div>Загрузка...</div>
-          ) : (
+          ) : users && users.length === 0 ? (
+            <div>Список исполнителей пуст</div>
+          ) :(
             <select
               value={assigneeId || ''}
               onChange={(e) => setAssigneeId(Number(e.target.value))}

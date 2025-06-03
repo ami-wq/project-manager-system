@@ -61,17 +61,25 @@ const FiltersPanel = ({
           </div>
         )}
 
-        {!isLoadingBoards && !isErrorBoards && boards?.map(board => (
-          <label key={board.id} className="flex items-center mb-1 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={selectedBoardIds.includes(board.id)}
-              onChange={() => toggleBoard(board.id)}
-              className="mr-2"
-            />
-            {board.name}
-          </label>
-        ))}
+        {!isLoadingBoards && !isErrorBoards && (
+          <>
+            {boards && boards.length > 0 ? (
+              boards.map(board => (
+                <label key={board.id} className="flex items-center mb-1 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={selectedBoardIds.includes(board.id)}
+                    onChange={() => toggleBoard(board.id)}
+                    className="mr-2"
+                  />
+                  {board.name}
+                </label>
+              ))
+            ) : (
+              <div className="text-gray-500">Список досок пуст</div>
+            )}
+          </>
+        )}
       </div>
 
       <button

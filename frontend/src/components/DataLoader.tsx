@@ -24,6 +24,14 @@ function DataLoader<T>({ data, isError, isLoading, error, renderItem }: DataLoad
     );
   }
 
+  if (data && data.length === 0) {
+    return (
+      <div className="p-4 text-center text-gray-500">
+        Список пуст
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-2 mt-2">
       {data?.map(renderItem)}
