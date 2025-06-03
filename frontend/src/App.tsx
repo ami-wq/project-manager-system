@@ -3,10 +3,10 @@ import BoardsPage from './pages/BoardsPage'
 import BoardPage from './pages/BoardPage'
 import IssuesPage from './pages/IssuesPage'
 import NotFoundPage from './pages/NotFoundPage'
-import Layout from './component/Layout'
+import Layout from './components/Layout'
 import { ToastContainer } from 'react-toastify'
-import TaskFormModalContainer from './component/TaskFormModalContainer'
-import ScrollToTop from './component/ScrollToTopButton'
+import TaskFormModalContainer from './components/TaskFormModalContainer'
+import ScrollToTop from './components/ScrollToTopButton'
 
 const App = () => {
   return (

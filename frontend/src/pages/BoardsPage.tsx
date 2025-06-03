@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import useBoards from "../api/useBoards";
-import DataLoader from "../component/DataLoader";
+import DataLoader from "../components/DataLoader";
 
 const BoardsPage = () => {
   const { data, error, isError } = useBoards(); 

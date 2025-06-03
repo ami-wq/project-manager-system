@@ -1,12 +1,12 @@
 import useTasks from "../api/useTasks";
-import CreateTaskButton from "../component/CreateTaskButton";
-import DataLoader from "../component/DataLoader";
+import CreateTaskButton from "../components/CreateTaskButton";
+import DataLoader from "../components/DataLoader";
 import { type Status, type Task } from "../types/task";
 import { useDispatch } from "react-redux";
 import { openModal } from "../store/taskModalSlice";
 import { useMemo, useState } from "react";
 import useBoards from "../api/useBoards";
-import FiltersPanel from "../component/FiltersPanel";
+import FiltersPanel from "../components/FiltersPanel";
 import useDebounce from "../hooks/useDebounce";
 
 const IssuesPage = () => {
