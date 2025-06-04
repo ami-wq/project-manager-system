@@ -65,7 +65,7 @@
 ## 🚀 Запуск проекта
 
 1. Установите Docker
-   - **Windows 10/11**
+   - **Windows 10/11:**
      Скачайте и установите [Docker Desktop](https://www.docker.com/products/docker-desktop/).
      Рекомендуется включить поддержку WSL2.
    - **Старые версии Windows (7, 8, ранние Windows 10):**
@@ -79,7 +79,7 @@
    git clone https://github.com/ami-wq/project-manager-system.git
    cd project-manager-system
    ```
-3. Скопируйте и настройте переменные окружения
+3. Настройте переменные окружения
    ```bash
    cp frontend/.env.example frontend/.env
    ```
